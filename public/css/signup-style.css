@@ -1,0 +1,30 @@
+
+        body,
+        html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #60a3bc !important;
+        }
+        .container {
+            position: relative;
+            top: 100px;
+            left: 100px;
+
+        }
+
+        .float-right {
+            float: right;
+        }
+            #image{
+                position: relative;
+                top: -360px;
+                left: -60px;
+                height: auto;
+                width: 400px;
+            }
+        #pos{
+            position: relative;
+            top: -3px;
+
+        }
