@@ -3,6 +3,7 @@ const passport = require('passport');
 
 
 const User = require('../models/user-model');
+const Profile = require('../models/profile-model');
 
 
 createUser = (req, res) => {
@@ -68,11 +69,30 @@ createUser = (req, res) => {
                   .save()
                   .then(user => {
                     console.log("User Registered");
-                    req.flash(
-                      'success_msg',
-                      'You are now registered and can log in'
-                    );
-                    res.redirect('/login');
+                    
+                    const newUserProfile = new Profile({
+                      username: user.username,
+                      age: '',
+                      phone: '',
+                      address: '',
+                      qualification: '',
+                      university: '',
+                      about: '',
+                      personalLife: '',
+                      commendations: '',
+                      website: ''
+                    });
+
+                    newUserProfile
+                      .save()
+                      .then(userProfile => {
+                          req.flash(
+                            'success_msg',
+                            'You are now registered and can log in'
+                          );
+                          res.redirect('/login');
+                      })
+                      .catch(err => console.log(err));
                   })
                   .catch(err => console.log(err));
               });
@@ -86,11 +106,43 @@ createUser = (req, res) => {
 
 loginUser = (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/profile',
         failureRedirect: '/login',
         failureFlash: true
       })(req, res, next);
 }
 
-module.exports = {createUser, loginUser};
+profile = (req, res) => {
+
+  Profile.findOne({username: req.user.username})
+    .then(userProfile => {
+      res.render("profile", {
+        user: req.user,
+        profile: userProfile
+      });
+    })
+    .catch(err => {console.log(err);});
+  
+}
+
+editProfile = (req, res) => {
+
+  const newProfile = req.body;
+
+  Profile.updateOne(
+    {username: req.user.username},
+    newProfile,
+    (err) =>{
+      if(err)
+        console.log(err);
+      else{
+        res.redirect("/profile");
+      }
+    }
+  )
+    .catch(err => {console.log(err);});
+
+}
+
+module.exports = {createUser, loginUser, profile, editProfile};
 
