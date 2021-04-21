@@ -29,11 +29,7 @@
         crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="profile-style.css">
-    <style>
-        .align {
-            text-align: left;
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -54,7 +50,7 @@
                     src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png" width="65"
                     class="mr-3 rounded-circle img-thumbnail shadow-sm">
                 <div class="media-body">
-                    <h4 class="m-2"><%= user.fName %></h4>
+                    <h4 class="m-2">Jason Doe</h4>
                     <p class="font-weight-light text-muted my-0 m-2">Professor</p>
                 </div>
             </div>
@@ -88,9 +84,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link text-dark font-italic">
+                <a href="application.html" class="nav-link text-dark font-italic">
                     <i class="fa fa-paperclip mr-3 text-dark fa-fw"></i>
-                    PAPERS
+                    APPLICATIONS
                 </a>
             </li>
             <li class="nav-item">
@@ -119,9 +115,14 @@
                                 <img src="https://res.cloudinary.com/mhmd/image/upload/v1556074849/avatar-1_tcnd60.png"
                                     alt="Admin" class="rounded-circle" width="150">
                                 <div class="mt-3">
-                                    <h4><%= user.fName %> <%= user.lName %></h4>
+                                    <h4>
+                                        <%= user.fName %>
+                                            <%= user.lName %>
+                                    </h4>
                                     <p class="text-secondary mb-1">Postgrad</p>
-                                    <p class="text-muted font-size-sm"><%= profile.university %></p>
+                                    <p class="text-muted font-size-sm">
+                                        <%= profile.university %>
+                                    </p>
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                         data-target="#exampleModalLong">
@@ -144,39 +145,48 @@
                                                     <form role="form" action="/profile" method="POST">
                                                         <div class="form-group">
                                                             <label>Age</label>
-                                                            <input class="form-control" type="text" name="age" value="<%= profile.age %>">
+                                                            <input class="form-control" type="text" name="age"
+                                                                value="<%= profile.age %>">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Phone</label>
-                                                            <input type="text" class="form-control" name="phone" value="<%= profile.phone %>">
+                                                            <input type="text" class="form-control" name="phone"
+                                                                value="<%= profile.phone %>">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Address</label>
-                                                            <input class="form-control" name="address" value="<%= profile.address %>">
+                                                            <input class="form-control" name="address"
+                                                                value="<%= profile.address %>">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Qualification</label>
-                                                            <input type="text" class="form-control" name="qualification" value="<%= profile.qualification %>">
+                                                            <input type="text" class="form-control" name="qualification"
+                                                                value="<%= profile.qualification %>">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>University</label>
-                                                            <input type="text" class="form-control" name="university" value="<%= profile.university %>">
+                                                            <input type="text" class="form-control" name="university"
+                                                                value="<%= profile.university %>">
                                                         </div>
                                                         <div class="form-group">
                                                             <label>About</label>
-                                                            <textarea class="form-control" rows="4" name="about"><%= profile.about %></textarea>
+                                                            <textarea class="form-control" rows="4"
+                                                                name="about"><%= profile.about %></textarea>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Personal Life</label>
-                                                            <textarea class="form-control" rows="4" name="personalLife"><%= profile.personalLife %></textarea>
+                                                            <textarea class="form-control" rows="4"
+                                                                name="personalLife"><%= profile.personalLife %></textarea>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Commendations</label>
-                                                            <textarea class="form-control" rows="3" name="commendations"><%= profile.commendations %></textarea>
+                                                            <textarea class="form-control" rows="3"
+                                                                name="commendations"><%= profile.commendations %></textarea>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Website</label>
-                                                            <input type="text" class="form-control" name="website" value="<%= profile.website %>">
+                                                            <input type="text" class="form-control" name="website"
+                                                                value="<%= profile.website %>">
                                                         </div>
 
                                                         <div class="modal-footer">
@@ -186,7 +196,7 @@
                                                         </div>
                                                     </form>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -302,7 +312,9 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h6 class="d-flex align-items-center mb-3">ABOUT</h6>
-                                    <p><%= profile.about %></p>
+                                    <p>
+                                        <%= profile.about %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -310,7 +322,9 @@
                             <div class="card h-100">
                                 <div class="card-body">
                                     <h6 class="d-flex align-items-center mb-3">PERSONAL LIFE</h6>
-                                    <p><%= profile.personalLife %></p>
+                                    <p>
+                                        <%= profile.personalLife %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +332,9 @@
                             <div class="card-body">
                                 <div class="row">
                                     <h6 class="d-flex align-items-center mb-3">COMMENDATIONS</h6>
-                                    <p><%= profile.commendations %></p>
+                                    <p>
+                                        <%= profile.commendations %>
+                                    </p>
                                 </div>
 
                             </div>

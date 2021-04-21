@@ -134,3 +134,6 @@
             width: 270px;
             float: left;
         }
+        .align {
+          text-align: left;
+      }
