@@ -30,6 +30,10 @@ router.get("/logout", (req, res) => {
     res.redirect("/login");
 })
 
+router.get("/blog",ensureAuthenticated, (req, res) => {
+    userRouter.blog(req, res);
+})
+
 router.post("/register", (req, res) => {
     userRouter.createUser(req, res);
 });
@@ -40,6 +44,10 @@ router.post("/login", (req, res, next) => {
 
 router.post("/profile", (req, res) => {
     userRouter.editProfile(req, res);
+})
+
+router.post("/blog", (req, res) => {
+    userRouter.postBlog(req, res);
 })
 
 module.exports = router;

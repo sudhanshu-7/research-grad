@@ -4,6 +4,7 @@ const passport = require('passport');
 
 const User = require('../models/user-model');
 const Profile = require('../models/profile-model');
+const Blog = require('../models/blog-model');
 
 
 createUser = (req, res) => {
@@ -144,5 +145,26 @@ editProfile = (req, res) => {
 
 }
 
-module.exports = {createUser, loginUser, profile, editProfile};
+postBlog = (req, res) => {
+  
+  const newBlog = new Blog({username: req.user.username, ...req.body});
+
+  newBlog
+    .save()
+    .then(blog => {
+      console.log("blog posted");
+      res.redirect("/blog");
+    })
+} 
+
+blog = (req, res) => {
+  Blog.find({username: req.user.username}, (err, found) => {
+    if(err)
+      console.log(err);
+    
+    res.render("blog", {blogs: found});
+  });
+}
+ 
+module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog};
 
