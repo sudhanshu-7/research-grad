@@ -22,8 +22,8 @@
         }
             #image{
                 position: relative;
-                top: -360px;
-                left: -60px;
+                top: -400px;
+                left: -120px;
                 height: auto;
                 width: 400px;
             }
@@ -31,4 +31,9 @@
             position: relative;
             top: -3px;
 
+        }
+        #checkbox{
+            position: relative;
+            top: -5px;
+            left: 180px;
         }
