@@ -147,7 +147,17 @@ editProfile = (req, res) => {
 
 postBlog = (req, res) => {
   
-  const newBlog = new Blog({username: req.user.username, ...req.body});
+  const title = req.body.title;
+  let titleWithoutSpaces = '';
+
+  Array.from(title).forEach(e => {
+    if(e !== ' '){
+      titleWithoutSpaces = titleWithoutSpaces.concat(e);
+    }
+  })
+
+  const newBlog = new Blog({identifier: titleWithoutSpaces, username: req.user.username, ...req.body});
+
 
   newBlog
     .save()
@@ -166,5 +176,19 @@ blog = (req, res) => {
   });
 }
  
-module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog};
+
+editBlog = (req, res) => {
+
+  Blog.updateOne({_id: req.params.id}, 
+    {content: req.body.content}, 
+    (err) => {
+      if(err){
+        console.log(err);
+      }
+      res.redirect("/blog");
+    }  
+  )
+}
+
+module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog, editBlog};
 

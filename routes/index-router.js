@@ -50,4 +50,8 @@ router.post("/blog", (req, res) => {
     userRouter.postBlog(req, res);
 })
 
+router.post("/blog/:id", (req, res) => {
+    userRouter.editBlog(req, res);
+})
+
 module.exports = router;
