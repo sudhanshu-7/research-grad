@@ -6,6 +6,7 @@ const cors = require("cors");
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const dotenv = require('dotenv');
 
 require('./config/passport')(passport);
 
@@ -24,8 +25,8 @@ app.set("view engine", "ejs");
 app.use(
   session({
     secret: 'secret',
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: false
   })
 );
 
