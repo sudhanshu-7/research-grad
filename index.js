@@ -14,6 +14,7 @@ require('./config/passport')(passport);
 const db = require('./db');
 const userRouter = require('./routes/user-router');
 const { user } = require("./db");
+const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
@@ -46,6 +47,6 @@ app.use(function(req, res, next) {
 
 app.use('/', require('./routes/index-router.js'));
 
-app.listen(4000, () => {
-    console.log("Server up on port 4000");
+app.listen(PORT, () => {
+    console.log(`Server up on port ${PORT}`);
 })
