@@ -114,9 +114,13 @@ loginUser = (req, res, next) => {
 }
 
 profile = (req, res) => {
-
-  Profile.findOne({username: req.user.username})
+  
+  Profile.findOne({googleId: req.user.googleId})
     .then(userProfile => {
+      if(userProfile === null){
+        res.json(404, {'message': 'profile not exists'})
+      }
+      
       res.render("profile", {
         user: req.user,
         profile: userProfile
@@ -131,7 +135,7 @@ editProfile = (req, res) => {
   const newProfile = req.body;
 
   Profile.updateOne(
-    {username: req.user.username},
+    {googleId: req.user.googleId},
     newProfile,
     (err) =>{
       if(err)
@@ -156,7 +160,7 @@ postBlog = (req, res) => {
     }
   })
 
-  const newBlog = new Blog({identifier: titleWithoutSpaces, username: req.user.username, ...req.body});
+  const newBlog = new Blog({identifier: titleWithoutSpaces, googleId: req.user.googleId, ...req.body});
 
 
   newBlog
@@ -168,7 +172,7 @@ postBlog = (req, res) => {
 } 
 
 blog = (req, res) => {
-  Blog.find({username: req.user.username}, (err, found) => {
+  Blog.find({googleId: req.user.googleId}, (err, found) => {
     if(err)
       console.log(err);
     

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const userRouter = require('./user-router');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
-// const passport = require('../config/passport');
 const passport = require('passport');
 
 
@@ -62,7 +61,7 @@ router.get(
     '/auth/google/callback', 
     passport.authenticate('google', { failureRedirect: '/login' }), 
     (req, res) => {
-        res.redirect('/');
+        res.redirect('/profile');
     }
 );
 

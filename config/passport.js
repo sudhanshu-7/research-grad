@@ -2,6 +2,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const User = require('../models/user-model');
+const Profile = require('../models/profile-model');
 
 dotenv.config({ path: './config/config.env' })
 
@@ -26,12 +27,36 @@ module.exports = function(passport) {
                 let user = await User.findOne({ googleId: profile.id })
       
                 if (user) {
-                  done(null, user)
+                    console.log(`user already exists`);
+                    done(null, user)
                 } else {
                   newUser
                     .save()
-                    .then(user => console.log(user))
-                  done(null, user)
+                    .then(user => {
+                        console.log(user)
+
+                        const newProfile = new Profile({
+                            googleId: user.googleId,
+                            username: '',
+                            age: '',
+                            phone: '',
+                            address: '',
+                            qualification: '',
+                            university: '',
+                            about: '',
+                            personalLife: '',
+                            commendations: '',
+                            website: '' 
+                        })
+
+                        newProfile
+                            .save()
+                            .then(profile => {
+                                console.log(`new profile saved`)
+                                done(null, user)
+                                res.redirect("/profile");
+                            })
+                    })
                 }
             } 
             catch (err) {
