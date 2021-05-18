@@ -35,6 +35,21 @@ router.get("/blog",ensureAuthenticated, (req, res) => {
     userRouter.blog(req, res);
 })
 
+router.get("/dashboard", ensureAuthenticated, (req, res) => {
+    userRouter.dashboard(req, res);
+})
+
+
+router.get("/auth/google", passport.authenticate('google', { scope: ['profile'] }));
+
+router.get(
+    '/auth/google/callback', 
+    passport.authenticate('google', { failureRedirect: '/login' }), 
+    (req, res) => {
+        res.redirect('/profile');
+    }
+);
+
 router.post("/register", (req, res) => {
     userRouter.createUser(req, res);
 });
@@ -55,14 +70,5 @@ router.post("/blog/:id", (req, res) => {
     userRouter.editBlog(req, res);
 })
 
-router.get("/auth/google", passport.authenticate('google', { scope: ['profile'] }));
-
-router.get(
-    '/auth/google/callback', 
-    passport.authenticate('google', { failureRedirect: '/login' }), 
-    (req, res) => {
-        res.redirect('/profile');
-    }
-);
 
 module.exports = router;

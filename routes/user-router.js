@@ -172,11 +172,12 @@ postBlog = (req, res) => {
 } 
 
 blog = (req, res) => {
+  console.log("BLOG");
   Blog.find({googleId: req.user.googleId}, (err, found) => {
+  console.log(req.user);
     if(err)
       console.log(err);
-    
-    res.render("blog", {blogs: found});
+    res.render("blog", {blogs: found, user: req.user});
   });
 }
  
@@ -194,5 +195,9 @@ editBlog = (req, res) => {
   )
 }
 
-module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog, editBlog};
+dashboard = (req, res) => {
+  res.render("dashboard", {user: req.user});
+}
+
+module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog, editBlog, dashboard};
 
