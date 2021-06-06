@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const blogSchema = {
     identifier: String,
-    googleId: String,
+    username: String,
     title: String,
     content: String,
     caption: String

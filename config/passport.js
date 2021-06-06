@@ -1,7 +1,12 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
+
 const User = require('../models/user-model');
+const UserLocal = require('../models/user-local-model');
 const Profile = require('../models/profile-model');
 
 dotenv.config({ path: './config/config.env' })
@@ -17,6 +22,7 @@ module.exports = function(passport) {
             console.log(profile);
             const newUser = new User ({
                 googleId: profile.id,
+                username: '',
                 displayName: profile.displayName,
                 firstName: profile.name.givenName,
                 lastName: profile.name.familyName,
@@ -54,7 +60,6 @@ module.exports = function(passport) {
                             .then(profile => {
                                 console.log(`new profile saved`)
                                 done(null, user)
-                                res.redirect("/profile");
                             })
                     })
                 }
@@ -64,6 +69,29 @@ module.exports = function(passport) {
             }
         }
     ))
+
+    passport.use(
+        new LocalStrategy({ usernameField: 'username', passwordField: 'password' }, (username, password, done) => {
+          // Match user
+          UserLocal.findOne({
+            username: username
+          }).then(user => {
+            if (!user) {
+              return done(null, false, { message: 'That user is not registered' });
+            }
+    
+            // Match password
+            bcrypt.compare(password, user.password, (err, isMatch) => {
+              if (err) throw err;
+              if (isMatch) {
+                return done(null, user);
+              } else {
+                return done(null, false, { message: 'Password incorrect' });
+              }
+            });
+          });
+        })
+      );
 
     passport.serializeUser((user, done) => {
         done(null, user.id)

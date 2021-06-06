@@ -117,8 +117,8 @@ loginUser = (req, res, next) => {
 }
 
 profile = (req, res) => {
-  
-  Profile.findOne({googleId: req.user.googleId})
+  console.log(req.isAuthenticated());
+  Profile.findOne({username: req.user.username})
     .then(userProfile => {
       if(userProfile === null){
         res.json(404, {'message': 'profile not exists'})
@@ -163,7 +163,7 @@ postBlog = (req, res) => {
     }
   })
 
-  const newBlog = new Blog({identifier: titleWithoutSpaces, googleId: req.user.googleId, ...req.body});
+  const newBlog = new Blog({identifier: titleWithoutSpaces, username: req.user.username, ...req.body});
 
 
   newBlog
@@ -176,7 +176,7 @@ postBlog = (req, res) => {
 
 blog = (req, res) => {
   console.log("BLOG");
-  Blog.find({googleId: req.user.googleId}, (err, found) => {
+  Blog.find({username: req.user.username}, (err, found) => {
   console.log(req.user);
     if(err)
       console.log(err);
@@ -202,5 +202,45 @@ dashboard = (req, res) => {
   res.render("dashboard", {user: req.user});
 }
 
-module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog, editBlog, dashboard};
+getUsername = (req, res) => {
+  console.log(req.user);
+  res.render("get-username", {exists: false});
+}
+
+setUsername = (req, res) => {
+
+  Profile.findOne({username: req.body.username}, (err, found) => {
+    if(err){
+      console.log(err);
+    }
+    else if (found){
+      res.render("get-username", {exists: true})
+    }
+
+    else{
+      User.updateOne({googleId: req.user.googleId},
+        {username: req.body.username},
+        (err) => {
+          if(err){
+            console.log(err);
+          }
+        }
+      )
+    
+      Profile.updateOne({googleId: req.user.googleId},
+        {username: req.body.username},
+        (err) => {
+          if(err){
+            console.log(err);
+          }
+          res.redirect("/profile");
+        }
+      )
+    }
+  })
+
+  
+}
+
+module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog, editBlog, dashboard, getUsername, setUsername};
 

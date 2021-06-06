@@ -46,9 +46,18 @@ router.get(
     '/auth/google/callback', 
     passport.authenticate('google', { failureRedirect: '/login' }), 
     (req, res) => {
-        res.redirect('/profile');
+        if(req.user.username === ''){
+            res.redirect('/username');
+        }
+        else{
+            res.redirect('/profile');
+        }
     }
 );
+
+router.get('/username', (req, res) => {
+    userRouter.getUsername(req, res);
+})
 
 router.post("/register", (req, res) => {
     userRouter.createUser(req, res);
@@ -68,6 +77,10 @@ router.post("/blog", (req, res) => {
 
 router.post("/blog/:id", (req, res) => {
     userRouter.editBlog(req, res);
+})
+
+router.post("/getusername", (req, res) => {
+    userRouter.setUsername(req, res);
 })
 
 

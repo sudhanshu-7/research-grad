@@ -7,6 +7,9 @@ const userSchema = {
       type: String,
       required: true,
     },
+    username:{
+      type: String,
+    },
     displayName: {
       type: String,
       required: true,
