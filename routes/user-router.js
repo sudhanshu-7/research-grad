@@ -3,6 +3,7 @@ const passport = require('passport');
 
 
 const User = require('../models/user-model');
+const UserLocal = require('../models/user-local-model');
 const Profile = require('../models/profile-model');
 const Blog = require('../models/blog-model');
 
@@ -42,7 +43,7 @@ createUser = (req, res) => {
         });
     }
     else {
-        User.findOne({ username: username }).then(user => {
+        UserLocal.findOne({ username: username }).then(user => {
           if (user) {
             errors.push({ msg: 'User already exists' });
             res.render('signup', {
@@ -54,13 +55,15 @@ createUser = (req, res) => {
                 password
             });
           } else {
-            const newUser = new User({
-              username,
-              fName,
-              lName,
-              email,
-              password
+            const newUser = new UserLocal({
+              username: username,
+              firstName: fName,
+              lastName: lName,
+              email: email,
+              password: password
             });
+
+            console.log(newUser);
     
             bcrypt.genSalt(10, (err, salt) => {
               bcrypt.hash(newUser.password, salt, (err, hash) => {
