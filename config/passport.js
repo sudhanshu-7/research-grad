@@ -12,7 +12,28 @@ const Profile = require('../models/profile-model');
 dotenv.config({ path: './config/config.env' })
 
 module.exports = function(passport) {
-    passport.use(new GoogleStrategy(
+	passport.serializeUser((user, done) => {
+		if(user.googleId !== undefined){
+			console.log("google user")
+		}
+		else{
+			console.log("local user");
+		}
+        done(null, user.id)
+    })
+    
+    passport.deserializeUser((id, done) => {
+        User.findById(id, (err, user) => {
+			if(user === null){
+				UserLocal.findById(id, (err, user) => done(err, user))
+			}
+			else{
+				done(err, user)
+			}
+		})
+    })
+
+    passport.use('google', new GoogleStrategy(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -70,8 +91,7 @@ module.exports = function(passport) {
         }
     ))
 
-    passport.use(
-        new LocalStrategy({ usernameField: 'username', passwordField: 'password' }, (username, password, done) => {
+    passport.use('local', new LocalStrategy({ usernameField: 'username', passwordField: 'password' }, (username, password, done) => {
           // Match user
           UserLocal.findOne({
             username: username
@@ -93,11 +113,5 @@ module.exports = function(passport) {
         })
       );
 
-    passport.serializeUser((user, done) => {
-        done(null, user.id)
-    })
     
-    passport.deserializeUser((id, done) => {
-        User.findById(id, (err, user) => done(err, user))
-    })
 }

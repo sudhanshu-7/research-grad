@@ -60,6 +60,7 @@ createUser = (req, res) => {
               firstName: fName,
               lastName: lName,
               email: email,
+              image: 'https://i.imgur.com/TQ4a9WT.png',
               password: password
             });
 
@@ -117,7 +118,6 @@ loginUser = (req, res, next) => {
 }
 
 profile = (req, res) => {
-  console.log(req.isAuthenticated());
   Profile.findOne({username: req.user.username})
     .then(userProfile => {
       if(userProfile === null){
