@@ -9,7 +9,6 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 
 require('./config/passport')(passport);
-require('./config/passport-local')(passport);
 
 
 
