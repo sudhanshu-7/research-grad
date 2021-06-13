@@ -6,6 +6,8 @@ const User = require('../models/user-model');
 const UserLocal = require('../models/user-local-model');
 const Profile = require('../models/profile-model');
 const Blog = require('../models/blog-model');
+const Application = require('../models/application-model');
+
 
 
 createUser = (req, res) => {
@@ -242,5 +244,22 @@ setUsername = (req, res) => {
   
 }
 
-module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog, editBlog, dashboard, getUsername, setUsername};
+applications = (req, res) => {
+	res.render('application');
+}
+
+postApplications = (req, res) =>{
+	res.render('application-prof');
+}
+
+addingApplications = (req, res) => {
+  const newApplication = new Application(req.body);  
+  
+  newApplication.save()
+  .then(app => {
+    res.json(200);
+  })
+}
+
+module.exports = {createUser, loginUser, profile, editProfile, postBlog, blog, editBlog, dashboard, getUsername, setUsername, applications, postApplications, addingApplications};
 

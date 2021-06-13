@@ -59,6 +59,14 @@ router.get('/username', (req, res) => {
     userRouter.getUsername(req, res);
 })
 
+router.get('/applications', (req, res) => {
+    userRouter.applications(req, res);
+})
+
+router.get('/post-applications', (req, res) => {
+    userRouter.postApplications(req, res);
+})
+
 router.post("/register", (req, res) => {
     userRouter.createUser(req, res);
 });
@@ -83,5 +91,8 @@ router.post("/getusername", (req, res) => {
     userRouter.setUsername(req, res);
 })
 
+router.post("/addingapplications", (req, res) => {
+    userRouter.addingApplications(req, res);
+})
 
 module.exports = router;
